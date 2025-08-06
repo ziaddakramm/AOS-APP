@@ -20,18 +20,31 @@ public class ExerciseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "exercise_name", nullable = false)
+    @Column(name = "exercise_name", nullable = false, unique = true)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private ExerciseCategory type;
+    @Column(name = "category", nullable = false, length = 20)
+    private ExerciseCategory category;
 
     // TODO: save video url
     // @Column(name = "media_file_references", columnDefinition = "text[]")
     // private String[] mediaFileReferences;
 
-    //Todo: Relations to Equipment, Exercise Type and Muscle Groups
+    // MANY exercises can use ONE equipment
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
+    private EquipmentEntity equipment;
+
+    // MANY exercises can target ONE muscle group
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "muscle_group_id", referencedColumnName = "id")
+    private MuscleGroupEntity muscleGroup;
+
+    // MANY exercises can have ONE exercise type
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exercise_type_id", referencedColumnName = "id")
+    private ExerciseTypeEntity exerciseType;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
