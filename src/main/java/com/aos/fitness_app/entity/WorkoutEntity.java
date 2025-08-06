@@ -26,10 +26,10 @@ public class WorkoutEntity {
     @Column(nullable = false, length = 200)
     private String name;
 
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "difficulty_level")
-    private WorkoutDifficultyLevel difficultyLevel;
+//    TODO: see if this was necessary
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "difficulty_level")
+//    private WorkoutDifficultyLevel difficultyLevel;
 
     @Column(name = "workout_type")
     private String workoutType;
@@ -43,7 +43,6 @@ public class WorkoutEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // One-to-Many relationship with WorkoutExercise (junction entity)
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<WorkoutExerciseEntity> workoutExercises = new ArrayList<>();
 }
