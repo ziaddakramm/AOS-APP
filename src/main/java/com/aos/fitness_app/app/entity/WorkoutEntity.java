@@ -1,7 +1,6 @@
-package com.aos.fitness_app.entity;
+package com.aos.fitness_app.app.entity;
 
 
-import com.aos.fitness_app.common.enums.WorkoutDifficultyLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

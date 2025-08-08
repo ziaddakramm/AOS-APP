@@ -1,6 +1,5 @@
-package com.aos.fitness_app.entity;
+package com.aos.fitness_app.app.entity;
 
-import com.aos.fitness_app.common.enums.RoadmapCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,38 +10,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "roadmap")
+@Table(name = "program")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoadmapEntity {
+public class ProgramEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "roadmap_name", nullable = false)
+    @Column(name = "program_name", nullable = false)
     private String name;
 
-    @Column(name = "duration_weeks") // Total duration of the roadmap
-    private Integer durationWeeks;
+    @Column(name = "description")
+    private String description;
+
+    // One-to-many relationship with ProgramWorkout junction table
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ProgramWorkoutEntity> programWorkouts = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "programs", fetch = FetchType.LAZY)
+    private List<LevelEntity> levels = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @Column(name = "category")
-    private Enum<RoadmapCategory> category;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "roadmap_level",
-            joinColumns = @JoinColumn(name = "roadmap_id"),
-            inverseJoinColumns = @JoinColumn(name = "level_id")
-    )
-    private List<LevelEntity> levels = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

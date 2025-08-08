@@ -1,4 +1,4 @@
-package com.aos.fitness_app.entity;
+package com.aos.fitness_app.app.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

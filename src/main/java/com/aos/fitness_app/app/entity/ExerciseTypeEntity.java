@@ -1,4 +1,4 @@
-package com.aos.fitness_app.entity;
+package com.aos.fitness_app.app.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
 @Entity
-@Table(name = "muscle_group")
+@Table(name = "exercise_type")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MuscleGroupEntity {
+public class ExerciseTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,7 +26,6 @@ public class MuscleGroupEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
 
     @PrePersist
     protected void onCreate() {
