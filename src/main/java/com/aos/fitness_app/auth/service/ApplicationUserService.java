@@ -2,8 +2,6 @@ package com.aos.fitness_app.auth.service;
 
 import com.aos.fitness_app.auth.entity.ApplicationUser;
 import com.aos.fitness_app.auth.repository.ApplicationUserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

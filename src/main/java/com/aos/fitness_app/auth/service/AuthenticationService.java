@@ -1,28 +1,27 @@
 package com.aos.fitness_app.auth.service;
 
 import com.aos.fitness_app.auth.component.JwtService;
-import com.aos.fitness_app.auth.dto.*;
-
+import com.aos.fitness_app.auth.dto.AuthenticationRequest;
+import com.aos.fitness_app.auth.dto.AuthenticationResponse;
+import com.aos.fitness_app.auth.dto.RegisterRequest;
 import com.aos.fitness_app.auth.entity.ApplicationUser;
 import com.aos.fitness_app.auth.entity.PasswordResetOtp;
-import com.aos.fitness_app.auth.entity.PasswordResetToken;
 import com.aos.fitness_app.auth.repository.ApplicationUserRepository;
 import com.aos.fitness_app.auth.repository.PasswordResetOtpRepository;
 import com.aos.fitness_app.auth.repository.PasswordResetTokenRepository;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 
 @Service
