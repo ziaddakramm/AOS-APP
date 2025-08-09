@@ -182,54 +182,5 @@ public class AuthenticationService {
       log.info("Deleted expired OTPs successfully");
     }
   }
-
-  ////////////////////////////////////////////////
-
-//
-//  public PasswordResetToken generateResetToken(String email) {
-//
-//    ApplicationUser user = applicationUserRepository.findByEmail(email)
-//            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//    String token = UUID.randomUUID().toString();
-//
-//    PasswordResetToken resetToken = PasswordResetToken.builder()
-//            .user(user)
-//            .token(token)
-//            .expiryDate(LocalDateTime.now().plusMinutes(15))
-//            .build();
-//
-//    passwordResetTokenRepository.save(resetToken);
-//
-//    return resetToken;
-//  }
-//
-//  public ForgotPasswordResponse generatePasswordResetResponse(PasswordResetToken resetToken){
-//    return ForgotPasswordResponse.builder()
-//            .id(resetToken.getId())
-//            .token(resetToken.getToken())
-//            .build();
-//  }
-//
-//  public Boolean resetPassword(ResetPasswordRequest request)
-//  {
-//    String token = request.getForgotPasswordToken();
-//    String newPassword = request.getNewPassword();
-//
-//    PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-//            .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
-//
-//    if (resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-//      return false;
-//    }
-//
-//    ApplicationUser user = resetToken.getUser();
-//    user.setPassword(passwordEncoder.encode(newPassword));
-//    applicationUserRepository.save(user);
-//
-//    passwordResetTokenRepository.delete(resetToken);
-//    return  true;
-//  }
-
 }
 
