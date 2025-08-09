@@ -168,7 +168,7 @@ public class AuthenticationService {
     passwordResetOtpRepository.save(otpEntity);
   }
 
-  @Scheduled(fixedRate = 60000) // Run every 5 minutes
+  @Scheduled(fixedRate = 300000)
   public void cleanupExpiredOtps() {
     log.info("Entering expired OTPs cleanup method");
     List<PasswordResetOtp> expiredOtps = passwordResetOtpRepository.findExpiredOtps(LocalDateTime.now());
