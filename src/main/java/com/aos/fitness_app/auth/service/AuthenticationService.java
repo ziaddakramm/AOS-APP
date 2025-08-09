@@ -33,9 +33,7 @@ public class AuthenticationService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
-  private final PasswordResetTokenRepository passwordResetTokenRepository;
   private final ApplicationUserRepository applicationUserRepository;
-  private final JavaMailSender mailSender;
   private final PasswordResetOtpRepository passwordResetOtpRepository;
   private final EmailService emailService;
 
