@@ -1,5 +1,7 @@
 package com.aos.fitness_app.auth.service;
 
+import com.aos.fitness_app.app.common.Constants;
+import com.aos.fitness_app.app.common.Utilities;
 import com.aos.fitness_app.auth.component.JwtService;
 import com.aos.fitness_app.auth.dto.AuthenticationRequest;
 import com.aos.fitness_app.auth.dto.AuthenticationResponse;
@@ -8,25 +10,29 @@ import com.aos.fitness_app.auth.entity.ApplicationUser;
 import com.aos.fitness_app.auth.entity.PasswordResetOtp;
 import com.aos.fitness_app.auth.repository.ApplicationUserRepository;
 import com.aos.fitness_app.auth.repository.PasswordResetOtpRepository;
-import com.aos.fitness_app.auth.repository.PasswordResetTokenRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class AuthenticationService {
   private final ApplicationUserRepository repository;
 
@@ -36,6 +42,10 @@ public class AuthenticationService {
   private final ApplicationUserRepository applicationUserRepository;
   private final PasswordResetOtpRepository passwordResetOtpRepository;
   private final EmailService emailService;
+  private final ApplicationUserService applicationUserService;
+
+  String regexPattern = Constants.EMAIL_REGEX;
+
 
   public AuthenticationResponse register(RegisterRequest request) {
 
@@ -43,40 +53,42 @@ public class AuthenticationService {
       throw new RuntimeException("email already exists");
     }
 
-
-    var user = ApplicationUser.builder()
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .role(request.getRole())
-            .build();
-
-
-    repository.save(user);
-
-    var jwtToken = jwtService.generateToken(user);
+    ApplicationUser user = applicationUserService.createNewUser(request);
+    ApplicationUser savedUser = repository.save(user);
+    var jwtToken = jwtService.generateToken(savedUser);
 
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
-            .email(user.getEmail())
+            .email(savedUser.getEmail())
             .expiration(jwtService.getJwtExpiration())
             .build();
   }
 
+
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
-    authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    request.getEmail(),
-                    request.getPassword()
-            )
-    );
-    var user = repository.findByEmail(request.getEmail())
-            .orElseThrow();
-    var jwtToken = jwtService.generateToken(user);
-    return AuthenticationResponse.builder()
-            .accessToken(jwtToken)
-            .email(user.getEmail())
-            .expiration(jwtService.getJwtExpiration())
-            .build();
+
+      // This will throw BadCredentialsException if credentials are invalid
+      authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(
+                      request.getEmail(),
+                      request.getPassword()
+              )
+      );
+
+    // Find user - this throws NoSuchElementException if user not found
+      var user = repository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new NoSuchElementException("User not found with email: " + request.getEmail()));
+
+    try {
+      var jwtToken = jwtService.generateToken(user);
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .email(user.getEmail())
+              .expiration(jwtService.getJwtExpiration())
+              .build();
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to generate authentication token", e);
+    }
   }
 
 
@@ -88,7 +100,7 @@ public class AuthenticationService {
     return false;
   }
 
-  public PasswordResetOtp generateResetOtp(String email) {
+  public void generateResetOtp(String email) {
 
     log.info("Entering generate otp method");
     ApplicationUser user = applicationUserRepository.findByEmail(email)
@@ -114,8 +126,6 @@ public class AuthenticationService {
     passwordResetOtpRepository.save(passwordResetOtp);
     // TODO: Send OTP via email
     emailService.sendOtpEmail(email, otp);
-
-    return passwordResetOtp;
   }
 
   private String generateOtp() {
@@ -180,5 +190,13 @@ public class AuthenticationService {
       log.info("Deleted expired OTPs successfully");
     }
   }
-}
 
+
+    public void validateEmail(String email) {
+    boolean isValid = Utilities.patternMatches(email, regexPattern);
+      if (!isValid)
+      {
+        throw new BadCredentialsException("The provided email is not in a valid format");
+      }
+    }
+}
