@@ -19,7 +19,7 @@ public class EmailService {
     private String appName;
 
 
-    //Todo: Adjust email source
+    //Todo: Adjust email source and design
     public void sendOtpEmail(String email, String otp) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
