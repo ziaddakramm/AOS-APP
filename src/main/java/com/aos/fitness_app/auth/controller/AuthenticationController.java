@@ -22,42 +22,36 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final ApplicationUserService applicationUserService;
 
-
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-
+        authenticationService.validateEmail(request.getEmail());
         return ResponseEntity.ok(authenticationService.register(request));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
+        authenticationService.validateEmail(request.getEmail());
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-
-    @GetMapping("/validate")
-    public void validate() {
-
-    }
-
-
     //Takes an email as a param
-    //Generates and OTP
+    //Generates an OTP
     //Sends the otp back in an email
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-            authenticationService.generateResetOtp(email);
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+            authenticationService.validateEmail(forgotPasswordRequest.getEmail());
+            authenticationService.generateResetOtp(forgotPasswordRequest.getEmail());
             return ResponseEntity.ok("OTP sent to your email. Please check your inbox.");
     }
-
 
     //TODO: check otp validity
     @PostMapping("/verify-otp")
     public ResponseEntity<VerifyOtpResponse> verifyOtp(@Valid @RequestBody VerifyOtpRequest request) {
-            boolean isValid = authenticationService.verifyOtp(request.getEmail(), request.getOtp());
+        authenticationService.validateEmail(request.getEmail());
+        boolean isValid = authenticationService.verifyOtp(request.getEmail(), request.getOtp());
             if (isValid) {
                 log.info("The reset token sent for email: {} is valid",request.getEmail());
                 return ResponseEntity.ok(VerifyOtpResponse.builder()
@@ -73,14 +67,14 @@ public class AuthenticationController {
             }
     }
 
-
     // ResetPassword request
     // contains new password
     // update password in db
     @PostMapping("/reset-password")
     public ResponseEntity<ResetPasswordResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
             // Verify OTP again for security
-            boolean isValid = authenticationService.verifyOtp(request.getEmail(), request.getOtp());
+        authenticationService.validateEmail(request.getEmail());
+        boolean isValid = authenticationService.verifyOtp(request.getEmail(), request.getOtp());
 
             if (!isValid) {
                 return ResponseEntity.ok(
