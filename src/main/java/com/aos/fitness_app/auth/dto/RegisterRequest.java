@@ -1,5 +1,6 @@
 package com.aos.fitness_app.auth.dto;
 
+import com.aos.fitness_app.app.common.constraints.ValidPassword;
 import com.aos.fitness_app.auth.enums.Role;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,9 @@ public class RegisterRequest {
 
   @Email
   private String email;
+
+  @ValidPassword
   private String password;
+
   private Role role;
 }

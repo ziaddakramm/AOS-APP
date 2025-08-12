@@ -1,5 +1,6 @@
 package com.aos.fitness_app.auth.dto;
 
+import com.aos.fitness_app.app.common.constraints.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +25,6 @@ public class ResetPasswordRequest {
     private String otp;
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @ValidPassword
     private String newPassword;
 }
