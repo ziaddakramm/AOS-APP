@@ -1,7 +1,7 @@
 package com.aos.fitness_app.auth.service;
 
-import com.aos.fitness_app.app.common.Constants;
-import com.aos.fitness_app.app.common.Utilities;
+import com.aos.fitness_app.common.Constants;
+import com.aos.fitness_app.common.Utilities;
 import com.aos.fitness_app.auth.component.JwtService;
 import com.aos.fitness_app.auth.dto.AuthenticationRequest;
 import com.aos.fitness_app.auth.dto.AuthenticationResponse;
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 
 @Service
