@@ -20,7 +20,7 @@ public class ProgramEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "program_name", nullable = false)
+    @Column(name = "program_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description")
@@ -30,8 +30,9 @@ public class ProgramEntity {
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProgramWorkoutEntity> programWorkouts = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "programs", fetch = FetchType.LAZY)
-    private List<LevelEntity> levels = new ArrayList<>();
+    //TODO: Assumption: don't need to know about the levels it's in
+    //@ManyToMany(mappedBy = "programs", fetch = FetchType.LAZY)
+    //private List<LevelEntity> levels = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
