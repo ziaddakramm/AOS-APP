@@ -25,16 +25,9 @@ public class WorkoutEntity {
     @Column(nullable = false, length = 200)
     private String name;
 
-//    TODO: see if this was necessary
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "difficulty_level")
-//    private WorkoutDifficultyLevel difficultyLevel;
-
     @Column(name = "workout_type")
     private String workoutType;
 
-    @Column(name = "is_active")
-    private Boolean isActive = true;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -42,6 +35,17 @@ public class WorkoutEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<WorkoutExerciseEntity> workoutExercises = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }
