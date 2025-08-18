@@ -1,10 +1,9 @@
 package com.aos.fitness_app.auth.dto;
 
-import com.aos.fitness_app.app.common.constraints.ValidPassword;
+import com.aos.fitness_app.auth.constraints.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
