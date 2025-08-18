@@ -103,7 +103,7 @@ public class WorkoutService {
 
         // Check name uniqueness if name is being changed
         if (!workout.getName().equals(request.getName()) &&
-                workoutRepository.existsByNameAndIsActiveExcludingId(request.getName(), workoutId)) {
+                workoutRepository.existsByNameExcludingId(request.getName(), workoutId)) {
             throw new RuntimeException("Workout with name '" + request.getName() + "' already exists");
         }
 
