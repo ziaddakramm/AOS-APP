@@ -1,7 +1,7 @@
 package com.aos.fitness_app.auth.dto;
 
-import com.aos.fitness_app.app.common.constraints.ValidPassword;
-import com.aos.fitness_app.auth.enums.Role;
+import com.aos.fitness_app.auth.constraints.ValidPassword;
+import com.aos.fitness_app.common.enums.Role;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
