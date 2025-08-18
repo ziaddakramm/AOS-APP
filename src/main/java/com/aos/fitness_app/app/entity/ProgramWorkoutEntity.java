@@ -1,5 +1,6 @@
 package com.aos.fitness_app.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,11 +22,13 @@ public class ProgramWorkoutEntity {
     // Many-to-one relationship with Program
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", nullable = false)
+    @JsonIgnore
     private ProgramEntity program;
 
     // Many-to-one relationship with Workout
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_id", nullable = false)
+    @JsonIgnore
     private WorkoutEntity workout;
 
     @Column(name = "workout_order")
