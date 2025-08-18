@@ -1,6 +1,6 @@
 package com.aos.fitness_app.app.entity;
 
-import com.aos.fitness_app.app.common.enums.RoadmapCategory;
+import com.aos.fitness_app.common.enums.RoadmapCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
