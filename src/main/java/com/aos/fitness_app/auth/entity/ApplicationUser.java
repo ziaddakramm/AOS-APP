@@ -1,6 +1,7 @@
 package com.aos.fitness_app.auth.entity;
 
-import com.aos.fitness_app.auth.enums.Role;
+
+import com.aos.fitness_app.common.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
