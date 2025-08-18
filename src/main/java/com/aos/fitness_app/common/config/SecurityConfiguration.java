@@ -28,7 +28,7 @@ public class SecurityConfiguration {
     private String[] whiteListUrl;
 
     @Value("${secured-url}")
-    private String securedUrl;
+    private String[] securedUrl;
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(antMatchers(whiteListUrl)).permitAll()
-                        .requestMatchers(antMatcher(securedUrl)).authenticated()
+                        .requestMatchers(antMatchers(securedUrl)).authenticated()
                         .anyRequest().denyAll() // or .authenticated() depending on your needs
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
