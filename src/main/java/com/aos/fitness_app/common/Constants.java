@@ -1,4 +1,4 @@
-package com.aos.fitness_app.app.common;
+package com.aos.fitness_app.common;
 
 public final class Constants {
     public static final String EMAIL_REGEX =

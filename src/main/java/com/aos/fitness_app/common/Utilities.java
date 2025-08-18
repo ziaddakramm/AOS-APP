@@ -1,4 +1,4 @@
-package com.aos.fitness_app.app.common;
+package com.aos.fitness_app.common;
 
 import java.util.regex.Pattern;
 

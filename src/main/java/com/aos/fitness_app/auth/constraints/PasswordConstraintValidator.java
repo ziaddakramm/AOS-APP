@@ -1,4 +1,4 @@
-package com.aos.fitness_app.app.common.constraints;
+package com.aos.fitness_app.auth.constraints;
 
 
 import jakarta.validation.ConstraintValidator;

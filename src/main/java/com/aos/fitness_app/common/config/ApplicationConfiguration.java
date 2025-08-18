@@ -1,4 +1,4 @@
-package com.aos.fitness_app.auth.config;
+package com.aos.fitness_app.common.config;
 
 
 import com.aos.fitness_app.auth.repository.ApplicationUserRepository;

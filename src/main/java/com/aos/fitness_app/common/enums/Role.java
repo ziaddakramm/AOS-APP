@@ -1,4 +1,4 @@
-package com.aos.fitness_app.auth.enums;
+package com.aos.fitness_app.common.enums;
 
 
 import lombok.Getter;
