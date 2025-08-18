@@ -1,6 +1,6 @@
 package com.aos.fitness_app.app.entity;
 
-import com.aos.fitness_app.app.common.enums.ExerciseCategory;
+import com.aos.fitness_app.common.enums.ExerciseCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
