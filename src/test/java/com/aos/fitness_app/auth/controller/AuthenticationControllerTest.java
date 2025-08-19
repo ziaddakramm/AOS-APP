@@ -1,10 +1,11 @@
 package com.aos.fitness_app.auth.controller;
 
 import com.aos.fitness_app.auth.dto.*;
-import com.aos.fitness_app.auth.enums.Role;
-import com.aos.fitness_app.auth.exception.AuthExceptionHandler;
+import com.aos.fitness_app.common.enums.Role;
+
 import com.aos.fitness_app.auth.service.ApplicationUserService;
 import com.aos.fitness_app.auth.service.AuthenticationService;
+import com.aos.fitness_app.common.exception.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,7 +54,7 @@ class AuthenticationControllerTest {
     void setUp() {
         // Initialize MockMvc with the controller
         mockMvc = MockMvcBuilders.standaloneSetup(authenticationController)
-                .setControllerAdvice(new AuthExceptionHandler()) // Use your actual exception handler
+                .setControllerAdvice(new GlobalExceptionHandler()) // Use your actual exception handler
                 .build();
 
         reset(authenticationService, applicationUserService);
